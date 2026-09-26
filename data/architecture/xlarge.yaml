@@ -1,0 +1,8 @@
+---
+server_count: 1
+database_count: 1
+has_compilers: true
+primary_cores: 4
+primary_memory: 16384
+database_cores: 8
+database_memory: 32768

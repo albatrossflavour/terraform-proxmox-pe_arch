@@ -1,0 +1,10 @@
+---
+compiler_cores: 2
+compiler_memory: 8192
+compiler_disk_size: 25
+primary_cores: 2
+primary_memory: 8192
+primary_disk_size: 50
+database_cores: 2
+database_memory: 8192
+database_disk_size: 100

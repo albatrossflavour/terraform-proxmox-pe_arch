@@ -1,0 +1,4 @@
+---
+primary_cores: 16
+primary_memory: 32768
+primary_disk_size: 100

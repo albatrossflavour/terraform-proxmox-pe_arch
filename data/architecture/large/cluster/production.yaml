@@ -1,0 +1,7 @@
+---
+compiler_cores: 8
+compiler_memory: 16384
+compiler_disk_size: 60
+primary_cores: 16
+primary_memory: 32768
+primary_disk_size: 185
