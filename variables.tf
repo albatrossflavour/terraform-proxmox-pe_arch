@@ -170,6 +170,21 @@ variable "cpu_type" {
   default     = "host"
 }
 
+variable "sizing" {
+  description = "Per-role overrides of the hiera sizing, keyed by server, psql, compiler or node. Any of cores, memory (MB) and disk (GB) may be set. Useful on a cluster short of RAM"
+  type = map(object({
+    cores  = optional(number)
+    memory = optional(number)
+    disk   = optional(number)
+  }))
+  default = {}
+
+  validation {
+    condition     = alltrue([for k in keys(var.sizing) : contains(["server", "psql", "compiler", "node"], k)])
+    error_message = "sizing keys must be server, psql, compiler or node."
+  }
+}
+
 variable "tags" {
   description = "Extra Proxmox tags to apply to every VM"
   type        = list(string)

@@ -93,31 +93,44 @@ locals {
 
   ssh_keys = var.destroy ? [] : [trimspace(file(pathexpand(var.ssh_key)))]
 
-  roles = {
+  # Sizing comes from hiera, with any per-role override from var.sizing on top
+  hiera_sizing = {
     server = {
-      count  = tonumber(data.hiera5.server_count.value)
       cores  = tonumber(data.hiera5.primary_cores.value)
       memory = tonumber(data.hiera5.primary_memory.value)
       disk   = tonumber(data.hiera5.primary_disk.value)
     }
     psql = {
-      count  = tonumber(data.hiera5.database_count.value)
       cores  = tonumber(data.hiera5.database_cores.value)
       memory = tonumber(data.hiera5.database_memory.value)
       disk   = tonumber(data.hiera5.database_disk.value)
     }
     compiler = {
-      count  = local.compiler_count
       cores  = tonumber(data.hiera5.compiler_cores.value)
       memory = tonumber(data.hiera5.compiler_memory.value)
       disk   = tonumber(data.hiera5.compiler_disk.value)
     }
     # Agents are for testing, so they get the smallest sizing
     node = {
-      count  = var.node_count
       cores  = 2
       memory = 4096
       disk   = tonumber(data.hiera5.compiler_disk.value)
+    }
+  }
+
+  counts = {
+    server   = tonumber(data.hiera5.server_count.value)
+    psql     = tonumber(data.hiera5.database_count.value)
+    compiler = local.compiler_count
+    node     = var.node_count
+  }
+
+  roles = {
+    for role, size in local.hiera_sizing : role => {
+      count  = local.counts[role]
+      cores  = coalesce(try(var.sizing[role].cores, null), size.cores)
+      memory = coalesce(try(var.sizing[role].memory, null), size.memory)
+      disk   = coalesce(try(var.sizing[role].disk, null), size.disk)
     }
   }
 
