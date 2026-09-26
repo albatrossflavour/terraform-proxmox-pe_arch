@@ -8,4 +8,5 @@ First version: the Proxmox VE provider for pecdm.
 - Sizing from hiera data that mirrors the AWS module's instance types in cores and memory
 - DHCP addressing, with pecdm connecting to the IPv4 address the guest agent reports
 - `sizing` overrides cores, memory and disk per role on top of the hiera data, for clusters short of resources
+- Random VM IDs within `vm_id_start` to `vm_id_end`, so VMs cloned in parallel don't collide on the next free ID
 - `destroy` mode for pecdm's destroy plan, which skips the template lookup and SSH key read

@@ -170,6 +170,18 @@ variable "cpu_type" {
   default     = "host"
 }
 
+variable "vm_id_start" {
+  description = "Lowest VM ID to pick from. IDs are random within the range so parallel clones can't collide; keep it clear of your templates and other VMs"
+  type        = number
+  default     = 100000
+}
+
+variable "vm_id_end" {
+  description = "Highest VM ID to pick from"
+  type        = number
+  default     = 999999
+}
+
 variable "sizing" {
   description = "Per-role overrides of the hiera sizing, keyed by server, psql, compiler or node. Any of cores, memory (MB) and disk (GB) may be set. Useful on a cluster short of RAM"
   type = map(object({

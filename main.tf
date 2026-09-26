@@ -1,7 +1,15 @@
 # Connection details come from the environment so no secret is written to
 # disk: PROXMOX_VE_ENDPOINT, PROXMOX_VE_API_TOKEN and, for self-signed
 # certificates, PROXMOX_VE_INSECURE=true.
-provider "proxmox" {}
+#
+# Random VM IDs because the VMs are cloned in parallel: asking Proxmox for the
+# next free ID hands the same one to every clone started at the same moment,
+# and all but one fail with "config file already exists".
+provider "proxmox" {
+  random_vm_ids      = true
+  random_vm_id_start = var.vm_id_start
+  random_vm_id_end   = var.vm_id_end
+}
 
 # The config path is explicit because hiera5 0.4.0 changed its default file
 # name from hiera.yaml to hiera.yml.

@@ -48,6 +48,7 @@ The Proxmox-specific inputs go through pecdm's `extra_terraform_vars`:
 | `cpu_type` | `host` | CPU type. EL10 needs x86-64-v3, which `host` provides on a capable node |
 | `domain_name` | `null` | Domain appended to VM names |
 | `tags` | `[]` | Extra Proxmox tags |
+| `vm_id_start`, `vm_id_end` | `100000`, `999999` | Range for the VMs' IDs. IDs are random within it so parallel clones can't collide |
 | `sizing` | `{}` | Per-role overrides of the hiera sizing, for example `{"server": {"memory": 4096}}`. Keys are `server`, `psql`, `compiler` and `node`; values may set `cores`, `memory` (MB) and `disk` (GB) |
 
 The inputs that only mean something on a cloud (`lb_ip_mode`, `disable_lb`, `firewall_allow`, `subnet`, `subnet_project`) are accepted and have no effect. Windows agents are not supported.
